@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from . models import Users
+
+from .models import Users
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -11,7 +12,7 @@ class UserSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = [
+        fields = [  # noqa: RUF012
             "email",
             "password",
             "first_name",

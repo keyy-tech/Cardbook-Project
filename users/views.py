@@ -1,13 +1,20 @@
-from rest_framework.response import Response
+from datetime import timedelta
+
+from django.core.mail import send_mail
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
-from . serializers import UserSerializers, ForgetPasswordSerializer, ResetPasswordSerializer
-from . models import Users , PasswordResetOTP
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.utils import timezone
-from datetime import timedelta
-from django.core.mail import send_mail
+
+from .models import PasswordResetOTP, Users
+from .serializers import (
+    ForgetPasswordSerializer,
+    ResetPasswordSerializer,
+    UserSerializers,
+)
+
 
 # Create your views here.
 class UserCreateAPIView(CreateAPIView):
