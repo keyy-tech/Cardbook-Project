@@ -206,9 +206,22 @@ class ResetPasswordAPIView(APIView):
         
 
           
-            
+class DeleteAccount(APIView):
+    permission_classes = [IsAuthenticated]
 
-          
+
+    def post(self,request,*args, **kwargs):
+        user = request.user
+        user.is_active = False
+        user.save()
+
+        return Response({
+            "success": True,
+            "msg": "Your account has being succesfully deleted."
+        },status=status.HTTP_200_OK)
+
+    
+    
 
          
             

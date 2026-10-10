@@ -11,8 +11,14 @@ from rest_framework.response import Response
 
 from .models import Card
 from .serializers import FullCardSerializer, ShortCardSerializer
+from drf_spectacular.utils  import extend_schema
 
 
+@extend_schema(
+    summary="List a short view of the card details",
+    description="This view shows a short list of only informations that the use can see when authenticated",
+    responses={200: ShortCardSerializer(many=True)}
+)
 class RetreivePersonalShortAPIView(ListAPIView):
     serializer_class=ShortCardSerializer
     permission_classes = [IsAuthenticated]
@@ -31,6 +37,12 @@ class RetreivePersonalShortAPIView(ListAPIView):
         },status=status.HTTP_200_OK)
     
 
+@extend_schema(
+    summary="Retrieve Full Details",
+    description="This is the view that retrieves the full details of the card.",
+    responses={200: FullCardSerializer}
+    
+)
 class RetreivePersonalFullAPIView(RetrieveAPIView):
     serializer_class=FullCardSerializer
     queryset = Card.objects.all()
@@ -51,6 +63,12 @@ class RetreivePersonalFullAPIView(RetrieveAPIView):
         },status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    summary="Create Card API View",
+    description="This is view is used to create a card.",
+    request=FullCardSerializer,
+    responses={200: FullCardSerializer}
+)
 class CreateCardAPIView(CreateAPIView):
     serializer_class = FullCardSerializer
     permission_classes = [IsAuthenticated]
@@ -73,6 +91,12 @@ class CreateCardAPIView(CreateAPIView):
         },status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    summary="Update Card API View",
+    description="This is the view to update the card.",
+    request=FullCardSerializer,
+    responses={200:FullCardSerializer}
+)
 class UpdateCardAPIView(UpdateAPIView):
     serializer_class = FullCardSerializer
     permission_classes = [IsAuthenticated]
@@ -103,6 +127,14 @@ class UpdateCardAPIView(UpdateAPIView):
         },status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    summary="Destroy Card API View",
+    description="A View that is used to delete Card in the model",
+    responses={
+        200: {"description": "Card deleted successfully."},
+        404: {"description": "Card not found"}
+    }
+)
 class DestroyCardAPIView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
